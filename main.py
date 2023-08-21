@@ -24,11 +24,10 @@ def get_model():
     model = Sequential([
         layers.Conv1D(filters=128, kernel_size=6, activation='relu', input_shape=(MAX_SIZE, 4),
                       kernel_initializer=initializers.GlorotUniform()),
-        layers.MaxPooling1D(pool_size=6, strides=1),
+        layers.MaxPooling1D(pool_size=6, strides=6),
         layers.Flatten(),
-        layers.Dense(64, activation='relu', kernel_initializer=initializers.GlorotUniform()),
         layers.Dense(32, activation='relu', kernel_initializer=initializers.GlorotUniform()),
-        layers.Dense(32, activation='relu', kernel_initializer=initializers.GlorotUniform()),
+        layers.Dense(16, activation='relu', kernel_initializer=initializers.GlorotUniform()),
         layers.Dense(1, activation='sigmoid')
     ])
     return model
@@ -71,7 +70,9 @@ def get_files_class(args):
         print("arguments are missing")
         exit(1)
     rbns_filenames = args[3:]
-    neg_file, pos_file = select_input_and_lowest_concentration(rbns_filenames) #select_input_and_highest_concentration(rbns_filenames)
+    neg_file, pos_file =  select_input_and_highest_concentration(rbns_filenames)
+        #select_input_and_lowest_concentration(rbns_filenames) #
+
     return neg_file, pos_file
 
 def one_hot_sequence(sequences):
@@ -80,8 +81,8 @@ def one_hot_sequence(sequences):
         sequences_encoded.append(one_hot(seq))
     return np.array(sequences_encoded)
 
-def build_df(class_file, desired_lines=None):
-    sequences = open_file(class_file, desired_lines)
+def build_df(class_file):
+    sequences = open_file(class_file)
     return one_hot_sequence(sequences)
 
 def open_file(filename):
@@ -109,7 +110,7 @@ def read_file(file):
     lines_read = 0
     sequences = []
     for line in file:
-        sequence = line.strip().split('\t')[0]  # Extract RNA sequence before the tab
+        sequence = line.decode('utf-8').split('\t')[0]  # Extract RNA sequence before the tab
         sequences.append(sequence)
         lines_read += 1
         if DESIRED_LINES is not None and lines_read >= DESIRED_LINES:
@@ -168,8 +169,8 @@ def resume(epochs, learning_rate, batch_size, corr):
 
 def preprocess_binary_data(negative_class, positive_class):
     #   data
-    neg_data_encoded = build_df(negative_class, DESIRED_LINES) # and encode
-    pos_data_encoded = build_df(positive_class, DESIRED_LINES) # and encode
+    neg_data_encoded = build_df(negative_class) # and encode
+    pos_data_encoded = build_df(positive_class) # and encode
 
     #labels
     class_0_labels = np.zeros((neg_data_encoded.shape[0], 1), dtype=int)
@@ -224,6 +225,7 @@ def read_scores_to_predict(scores_file):
     with open(scores_file, 'r') as file:
         for line in file:
             true_values.append(line.strip())
+    return true_values
 
 def create_and_write_file(filename, value):
     with open(filename, 'a') as file:
