@@ -68,7 +68,7 @@ We found that different kernel sizes perform differently on different proteins. 
 - Using a M2 Pro processor: 32 GB RAM, 10 CPU
 
 
-## Code explanation
+## 📝 Code explanation
 ### main.py
 Contains training pipeline and make predictions for rna compete.
 The code contains a variable called IS_TRAIN : if True, we compute correlation and if False we print predictions in file.
