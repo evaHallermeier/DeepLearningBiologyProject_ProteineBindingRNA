@@ -42,7 +42,7 @@ or input file.
 ## 🛠️ Our final implementation
 We built a deep neural network that was training on a binary classification problem (low or high binding intensity score). 
 
-![alt text](https://ibb.co/nLNFn8h)
+![alt text](https://firebasestorage.googleapis.com/v0/b/myperfect.appspot.com/o/Picture1.png?alt=media&token=1ce69eca-b48f-476e-8bfc-2f94c88b5dd9)
 
 We found that using more filters provides the opportunity to find different motifs or different variants of the same motif. The purpose of the global max-pooling is to determine if a motif exists in the input sequence or not.
 We found that different kernel sizes perform differently on different proteins. This can be explained by the fact that motifs can be of varying length. To overcome this, we decided to use three different kernel sizes. 
@@ -54,12 +54,13 @@ We found that different kernel sizes perform differently on different proteins. 
 - learning rate: 0.001 
 - loss function: binary cross entropy
 
-![alt text](http://url/to/img.png)
+## ⛓️ Pipeline
+![alt text](https://firebasestorage.googleapis.com/v0/b/myperfect.appspot.com/o/Picture2.png?alt=media&token=df3473bc-83a6-4125-a68f-31125d3ddc19)
 
 
 ## 🧾 Results of the model
 
-![alt text](http://url/to/img.png)
+![alt text](https://firebasestorage.googleapis.com/v0/b/myperfect.appspot.com/o/Picture3.png?alt=media&token=3b75a710-8c5a-492a-9309-a44624a99407)
 
 
 - Mean correlation of all proteins: 0.191
